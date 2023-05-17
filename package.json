@@ -1,6 +1,6 @@
 {
   "name": "itty-router-help",
-  "version": "0.1.0-next.1",
+  "version": "0.1.1",
   "description": "Creates help middleware for itty-router.",
   "type": "module",
   "main": "./createHelp.js",
@@ -21,7 +21,7 @@
     "prerelease": "yarn verify",
     "prebuild": "rimraf dist && mkdir dist",
     "build": "rollup -c",
-    "release": "release --tag --push --type=next --src=dist"
+    "release": "release --tag --push --patch --src=dist"
   },
   "repository": {
     "type": "git",

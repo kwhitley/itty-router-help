@@ -1,5 +1,7 @@
 import deepmerge from 'deepmerge'
 
+const REF = '$@'
+
 export const createHelp = (router) => {
   const getRouteParams = (route) =>
     (route.match(/:\w+\??/g) || []).reduce((acc, param) => {
@@ -23,6 +25,8 @@ export const createHelp = (router) => {
       }
     }
 
+    withHelpInternal.ref = REF
+
     return withHelpInternal
   }
 
@@ -30,7 +34,7 @@ export const createHelp = (router) => {
     ({ query }) => {
       if (query.help !== undefined) {
         const endpoints = router.routes.reduce((acc, r) => {
-          const help = r[2].find(h => h.name === 'withHelpInternal')
+          const help = r[2].find(h => h.ref == REF)
 
           if (help) {
             const payload = help({ query, method: r[0], route: r[3] })
