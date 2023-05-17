@@ -51,6 +51,31 @@ describe('createHelp(router: RouterType)', () => {
     })
   })
 
+  it('withHelp() will use defined demo, if available', async () => {
+    const router = Router()
+    const { withHelp, withHelpIndex } = createHelp(router)
+    const demo = 'whatever'
+
+    router
+      .get('/foo', withHelp({ demo }))
+
+    const response = await router.handle({ method: 'GET', url: 'https://a.b.c/foo?help' })
+
+    expect(response).toEqual({ demo })
+  })
+
+  it('withHelp() will omit demo, if set to false', async () => {
+    const router = Router()
+    const { withHelp, withHelpIndex } = createHelp(router)
+
+    router
+      .get('/foo', withHelp({ demo: false }))
+
+    const response = await router.handle({ method: 'GET', url: 'https://a.b.c/foo?help' })
+
+    expect(response).toEqual({})
+  })
+
   it('can deliver a help index using withHelpIndex(payload = {})', async () => {
     const router = Router()
     const { withHelp, withHelpIndex } = createHelp(router)

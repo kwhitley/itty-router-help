@@ -18,11 +18,14 @@ export const createHelp = (router) => {
 
         return {
           ...deepmerge(
-            { ...payload },
             {
+              ...payload,
               demo: (payload?.demo === undefined && method === 'GET' && !hasParams)
                     ? route
                     : (payload.demo || undefined),
+            },
+            {
+
               params: Object.keys(params).length ? params : undefined,
             }
           )
