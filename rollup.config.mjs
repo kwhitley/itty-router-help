@@ -7,7 +7,6 @@ export default async () => {
   const files = await globby('./src/*.ts', {
     ignore: [
       '**/*.spec.ts',
-      'example',
     ]
   })
 
