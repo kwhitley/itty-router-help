@@ -25,6 +25,7 @@ describe('createHelp(router: RouterType)', () => {
 
     expect(response).toEqual({
       description,
+      demo: '/foo',
     })
   })
 

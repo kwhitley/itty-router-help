@@ -10,14 +10,19 @@ export const createHelp = (router) => {
       }) && acc
     }, {})
 
-  const withHelp = (payload = {}) => {
+  const withHelp = (payload: any = {}) => {
     function withHelpInternal({ query, method, route = '' }) {
       if (query.help !== undefined) {
         const params = getRouteParams(route)
+        const hasParams = Object.keys(params).length
+
         return {
           ...deepmerge(
             { ...payload },
             {
+              demo: (payload?.demo === undefined && method === 'GET' && !hasParams)
+                    ? route
+                    : undefined,
               params: Object.keys(params).length ? params : undefined,
             }
           )
