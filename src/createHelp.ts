@@ -22,7 +22,7 @@ export const createHelp = (router) => {
             {
               demo: (payload?.demo === undefined && method === 'GET' && !hasParams)
                     ? route
-                    : undefined,
+                    : (payload.demo || undefined),
               params: Object.keys(params).length ? params : undefined,
             }
           )
