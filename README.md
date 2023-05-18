@@ -39,7 +39,7 @@ import {
 import { createHelp } from 'itty-router-help'
 
 // create a new Router
-const router = Router()   
+const router = Router({ base: '/v1' })   
 
 // we create two middlewares from the router
 const { withHelp, withHelpIndex } = createHelp(router)
@@ -50,6 +50,11 @@ router
   
   // embed the help index upstream
   .get('/', withHelpIndex())
+
+  .get('/simple/endpoint',
+    withHelp(),
+    () => 'Default help example'
+  }
 
   // It can be this easy... this will document the method, route, and each param
   .get('/foo/bar/:baz/:extra?',
@@ -64,7 +69,7 @@ router
   )
 
   // Add any payload you like... this will be merged with the automatic output.
-  .get('/add/anything',
+  .post('/add/anything',
     withHelp({
       'description': 'Adding a description to your help routes is a nice touch.',
       'query_params': {
@@ -79,6 +84,42 @@ router
 
   // 404 for everything else
   .all('*', () => error(404))
+```
+
+# Browsing
+```json
+// Example: /v1?help
+{
+  "endpoints": {
+    "GET /simple/endpoint", {
+      "demo": "/v1/simple/endpoint"
+    },
+    "GET /foo/bar/:baz/:extra?": {
+      "params": {
+        "baz": {
+          "required": true
+        },
+        "extra": {
+          "required": false
+        }
+      }
+    },
+    "POST add/anything": {
+      "description": "Adding a description to your help routes is a nice touch.",
+      "query_params": {
+        "awesome": {
+          "description": "Make things awesome!",
+          "required": false
+        }
+      }
+    }
+  }
+}
+
+// Example /v1/secret/route?help
+{
+  "demo": "/v1/secret/route"
+}
 ```
 
 ## Join the Discussion!
