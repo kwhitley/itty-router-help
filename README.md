@@ -1,4 +1,4 @@
-# [itty-router-help](https://itty.dev)
+# [![itty-router-help](https://github.com/kwhitley/itty-router-help/assets/865416/92a4b1d6-ee42-4b09-8174-56828a62e57f)](https://itty.dev)
 
 [![Version](https://img.shields.io/npm/v/itty-router-help.svg?style=flat-square)](https://npmjs.com/package/itty-router-help)
 [![Bundle Size](https://img.shields.io/bundlephobia/minzip/itty-router-help?style=flat-square)](https://bundlephobia.com/result?p=itty-router-help)
