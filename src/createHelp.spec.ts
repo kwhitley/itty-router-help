@@ -24,8 +24,10 @@ describe('createHelp(router: RouterType)', () => {
     const response = await router.handle({ method: 'GET', url: 'https://a.b.c/foo?help' })
 
     expect(response).toEqual({
-      description,
-      demo: '/foo',
+      'GET /foo': {
+        description,
+        demo: '/foo',
+      }
     })
   })
 
@@ -42,10 +44,12 @@ describe('createHelp(router: RouterType)', () => {
     const response = await router.handle({ method: 'GET', url: 'https://a.b.c/foo/13?help' })
 
     expect(response).toEqual({
-      description,
-      params: {
-        bar: {
-          required: true
+      'GET /foo/:bar': {
+        description,
+        params: {
+          bar: {
+            required: true
+          }
         }
       }
     })
@@ -61,7 +65,11 @@ describe('createHelp(router: RouterType)', () => {
 
     const response = await router.handle({ method: 'GET', url: 'https://a.b.c/foo?help' })
 
-    expect(response).toEqual({ demo })
+    expect(response).toEqual({
+      'GET /foo': {
+        demo
+      }
+    })
   })
 
   it('withHelp() will omit demo, if set to false', async () => {
@@ -73,7 +81,9 @@ describe('createHelp(router: RouterType)', () => {
 
     const response = await router.handle({ method: 'GET', url: 'https://a.b.c/foo?help' })
 
-    expect(response).toEqual({})
+    expect(response).toEqual({
+      'GET /foo': {}
+    })
   })
 
   it('can deliver a help index using withHelpIndex(payload = {})', async () => {

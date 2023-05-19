@@ -118,7 +118,9 @@ router
 
 // Example /v1/secret/route?help
 {
-  "demo": "/v1/secret/route"
+  "GET /secret/route": {
+    "demo": "/v1/secret/route"
+  }  
 }
 ```
 

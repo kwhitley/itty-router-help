@@ -19,15 +19,19 @@ export const createHelp = (router) => {
         return {
           ...deepmerge(
             {
-              ...payload,
-              demo: (payload?.demo === undefined && method === 'GET' && !hasParams)
-                    ? route
-                    : (payload.demo || undefined),
+              [`${method} ${route}`]: {
+                description: payload.description,
+                params: Object.keys(params).length ? params : undefined,
+                ...payload,
+              }
             },
             {
-
-              params: Object.keys(params).length ? params : undefined,
-            }
+              [`${method} ${route}`]: {
+                demo: (payload?.demo === undefined && method === 'GET' && !hasParams)
+                    ? route
+                    : (payload.demo || undefined),
+              }
+            },
           )
         }
       }
@@ -48,7 +52,7 @@ export const createHelp = (router) => {
             const payload = help({ query, method: r[0], route: r[3] })
 
             if (payload?.indexed !== false) {
-              acc[`${r[0]} ${r[3]}`] = payload
+              Object.assign(acc, payload)
             }
           }
 
