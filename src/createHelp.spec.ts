@@ -1,19 +1,47 @@
 import { Router, json } from 'itty-router'
 import { describe, expect, it } from 'vitest'
-import { createHelp } from './createHelp'
+import { withHelp, withHelpIndex } from './createHelp'
 
-describe('createHelp(router: RouterType)', () => {
-  it('returns { withHelp, withHelpIndex }', async () => {
-    const router = Router()
-    const { withHelp, withHelpIndex } = createHelp(router)
-
+describe('EXPORTS', () => {
+  it('withHelp', async () => {
     expect(typeof withHelp).toBe('function')
+  })
+  it('withHelpIndex', async () => {
     expect(typeof withHelpIndex).toBe('function')
   })
+})
 
+describe('withHelpIndex(router: RouterType, payload?: object)', () => {
+  it('can deliver a help index using withHelpIndex(payload = {})', async () => {
+    const router = Router()
+    const description = 'Foo bar baz'
+
+    router
+      .get('/', withHelpIndex(router))
+      .get('/foo/:bar', withHelp({
+        description,
+      }))
+
+    const response = await router.handle({ method: 'GET', url: 'https://a.b.c/?help' })
+
+    expect(response).toEqual({
+      endpoints: {
+        'GET /foo/:bar': {
+          description,
+          params: {
+            bar: {
+              required: true
+            }
+          }
+        }
+      }
+    })
+  })
+})
+
+describe('withHelp(payload: object)', () => {
   it('can be triggered on an individual route using withHelp(payload = {})', async () => {
     const router = Router()
-    const { withHelp, withHelpIndex } = createHelp(router)
     const description = 'Foo bar baz'
 
     router
@@ -33,7 +61,6 @@ describe('createHelp(router: RouterType)', () => {
 
   it('withHelp will autoparse params and add if they are required or not.', async () => {
     const router = Router()
-    const { withHelp, withHelpIndex } = createHelp(router)
     const description = 'Foo bar baz'
 
     router
@@ -57,7 +84,6 @@ describe('createHelp(router: RouterType)', () => {
 
   it('withHelp() will use defined demo, if available', async () => {
     const router = Router()
-    const { withHelp, withHelpIndex } = createHelp(router)
     const demo = 'whatever'
 
     router
@@ -74,7 +100,6 @@ describe('createHelp(router: RouterType)', () => {
 
   it('withHelp() will omit demo, if set to false', async () => {
     const router = Router()
-    const { withHelp, withHelpIndex } = createHelp(router)
 
     router
       .get('/foo', withHelp({ demo: false }))
@@ -83,33 +108,6 @@ describe('createHelp(router: RouterType)', () => {
 
     expect(response).toEqual({
       'GET /foo': {}
-    })
-  })
-
-  it('can deliver a help index using withHelpIndex(payload = {})', async () => {
-    const router = Router()
-    const { withHelp, withHelpIndex } = createHelp(router)
-    const description = 'Foo bar baz'
-
-    router
-      .get('/', withHelpIndex())
-      .get('/foo/:bar', withHelp({
-        description,
-      }))
-
-    const response = await router.handle({ method: 'GET', url: 'https://a.b.c/?help' })
-
-    expect(response).toEqual({
-      endpoints: {
-        'GET /foo/:bar': {
-          description,
-          params: {
-            bar: {
-              required: true
-            }
-          }
-        }
-      }
     })
   })
 })

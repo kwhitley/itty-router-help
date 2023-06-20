@@ -1,6 +1,6 @@
 {
   "name": "itty-router-help",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Creates help middleware for itty-router.",
   "type": "module",
   "main": "./createHelp.js",

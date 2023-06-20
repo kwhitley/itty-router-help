@@ -36,20 +36,17 @@ import {
   Router,
   withParams,
 } from 'itty-router'
-import { createHelp } from 'itty-router-help'
+import { withHelp, withHelpIndex } from 'itty-router-help'
 
 // create a new Router
 const router = Router({ base: '/v1' })   
-
-// we create two middlewares from the router
-const { withHelp, withHelpIndex } = createHelp(router)
 
 router
   // add some global middleware
   .all('*', withParams) 
   
   // embed the help index upstream
-  .get('/', withHelpIndex())
+  .get('/', withHelpIndex(router))
 
   .get('/simple/endpoint',
     withHelp(),
