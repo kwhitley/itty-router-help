@@ -1,6 +1,6 @@
-import { Router, json } from 'itty-router'
+import { Router, json, withParams } from 'itty-router'
 import { describe, expect, it } from 'vitest'
-import { withHelp, withHelpIndex } from './createHelp'
+import { withHelp, withHelpIndex } from '.'
 
 describe('EXPORTS', () => {
   it('withHelp', async () => {

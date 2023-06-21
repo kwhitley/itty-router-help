@@ -1,5 +1,5 @@
 import deepmerge from 'deepmerge'
-import { RouterType } from 'itty-router'
+import { RouterType, IRequest } from 'itty-router'
 
 const REF = '$@'
 
@@ -11,7 +11,9 @@ const getRouteParams = (route) =>
     }, {})
 
 export const withHelp = (payload: any = {}) => {
-  function withHelpInternal({ query, method, route = '' }) {
+  function withHelpInternal(request: IRequest) {
+    const { query, method, route } = request
+
     if (query.help !== undefined) {
       const params = getRouteParams(route)
       const hasParams = Object.keys(params).length
